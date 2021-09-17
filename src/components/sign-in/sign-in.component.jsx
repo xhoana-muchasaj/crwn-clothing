@@ -1,7 +1,6 @@
 import React from "react";
 import FormIput from "../form-input/form-input.component";
 
-
 class SignIn extends React.Component {
   state = {
     email: "",
@@ -16,7 +15,7 @@ class SignIn extends React.Component {
 
   handleChange = (event) => {
     const { value, name } = event.target;
-    console.log({ value, name });
+
     this.setState({
       [name]: value,
     });
@@ -33,7 +32,7 @@ class SignIn extends React.Component {
             name="email"
             type="email"
             value={this.state.email}
-            //label="email"
+            label="email"
             required
             handleChange={this.handleChange}
           />
@@ -42,7 +41,7 @@ class SignIn extends React.Component {
             name="password"
             type="password"
             value={this.state.password}
-            //label="password"
+            label="password"
             required
             handleChange={this.handleChange}
           />
