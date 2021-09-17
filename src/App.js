@@ -29,7 +29,7 @@ class App extends React.Component {
               id: snapShot.id,
               ...snapShot.data(),
             },
-          },()=>{  console.log("current user state", this.state);});
+          },()=>{ console.log("current user state", this.state);});
         });
       }
 
