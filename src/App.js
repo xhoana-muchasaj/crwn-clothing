@@ -24,12 +24,17 @@ class App extends React.Component {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data(),
+          this.setState(
+            {
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data(),
+              },
             },
-          },()=>{ console.log("current user state", this.state);});
+            () => {
+              console.log("current user state", this.state);
+            }
+          );
         });
       }
 
@@ -45,7 +50,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/shop" component={ShopPage} />
