@@ -3,8 +3,10 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-// react-redux component that will be wrapped arround the entire app, so it can be used by all components
+// the provider is a react-redux component that will be wrapped arround the entire app, so it can be used by all components (parent to all components)
+//it allows to have access to the store object
 import { Provider } from "react-redux";
+
 import store from "./redux/store";
 
 

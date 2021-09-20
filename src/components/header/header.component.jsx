@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux"; //let's us modify our components to take things related to redux
+
+//connect is a higher order component let's us modify our components to take things related to redux
+
+import { connect } from "react-redux"; 
 
 //special syntax in react for importing svg
 import { ReactComponent as Logo } from "../../assets/crown.svg";
@@ -35,8 +38,12 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
+// the first argument of connect is going to be the function (mapStateToProps) that allows us to access the state,
+// with the state being our reducer
 const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
 });
 
+// high order components are just functions that take components as arguments and return a new supped up component
 export default connect(mapStateToProps)(Header);
+ 
