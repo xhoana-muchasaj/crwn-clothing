@@ -23,7 +23,7 @@ class App extends React.Component {
     // onAuthStateChanged  firebase method that creates a stream whenever the authentication changes (a subscription is created)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
-        console.log("PROPS", this.props);
+        //console.log("PROPS", this.props);
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapShot) => {
           //using redux for passing props
