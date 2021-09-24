@@ -1,4 +1,5 @@
 import React from "react";
+//for routing
 import { Route } from "react-router";
 
 import CollectionsOverview from "../../components/collections-overview/collections-overview.component";

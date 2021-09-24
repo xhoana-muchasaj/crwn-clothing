@@ -1,5 +1,5 @@
 .collection-item {
-  width: 22%;
+  width: 22vw; /** the difference between the % and the vw: 22% is the % of the container div--22vw is relative to the window, it will end adopting if we increse or decrease the window */
   display: flex;
   flex-direction: column;
   height: 350px;
