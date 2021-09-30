@@ -7,7 +7,15 @@ import logger from "redux-logger";
 
 import rootReducer from "./root-reducer";
 
-const middlewares=[logger];
+/**
+ * the LOGGER is a middleware that catches the action and logs it to us, 
+ * so we can see the state before and after updates
+ * we leave the logger empty, so in production it doesnt show anything
+ * then we specify that it is needed only fo development
+ */
+const middlewares=[];
+
+if(process.env.NODE_ENV === "development") middlewares.push(logger)
 
 export const store=createStore(rootReducer,applyMiddleware(...middlewares));
 
