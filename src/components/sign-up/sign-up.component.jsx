@@ -1,23 +1,25 @@
-import React from "react";
+import React from 'react';
 
-// custom components
-import FormInput from "../form-input/form-input.component";
-import CustomButton from "../custom-button/custom-button.component";
+import FormInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
 
-//auth components
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
-import "./sign-up.styles.scss";
+import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 class SignUp extends React.Component {
-  state = {
-    displayName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
+  constructor() {
+    super();
 
-  handleSubmit = async (event) => {
+    this.state = {
+      displayName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    };
+  }
+
+  handleSubmit = async event => {
     event.preventDefault();
 
     const { displayName, email, password, confirmPassword } = this.state;
@@ -28,8 +30,6 @@ class SignUp extends React.Component {
     }
 
     try {
-    // createUserWithEmailAndPassword method from auth 
-    // that creates a new user account associate with a specific email and password
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
@@ -38,10 +38,10 @@ class SignUp extends React.Component {
       await createUserProfileDocument(user, { displayName });
 
       this.setState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        displayName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
       });
     } catch (error) {
       console.error(error);
@@ -57,46 +57,45 @@ class SignUp extends React.Component {
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
-      <div className="sign-up">
-        <h2 className="title">I do not have an account</h2>
+      <SignUpContainer>
+        <SignUpTitle>I do not have a account</SignUpTitle>
         <span>Sign up with your email and password</span>
-        <form className="sign-up-form" onSubmit={this.handleSubmit}>
+        <form className='sign-up-form' onSubmit={this.handleSubmit}>
           <FormInput
-            type="text"
-            name="displayName"
+            type='text'
+            name='displayName'
             value={displayName}
-            label="Display Name"
+            onChange={this.handleChange}
+            label='Display Name'
             required
-            handleChange={this.handleChange}
           />
           <FormInput
-            type="email"
-            name="email"
+            type='email'
+            name='email'
             value={email}
-            label="Email"
+            onChange={this.handleChange}
+            label='Email'
             required
-            handleChange={this.handleChange}
           />
           <FormInput
-            type="password"
-            name="password"
+            type='password'
+            name='password'
             value={password}
-            label="Password"
+            onChange={this.handleChange}
+            label='Password'
             required
-            handleChange={this.handleChange}
           />
           <FormInput
-            type="password"
-            name="confirmPassword"
+            type='password'
+            name='confirmPassword'
             value={confirmPassword}
-            label="Password"
+            onChange={this.handleChange}
+            label='Confirm Password'
             required
-            handleChange={this.handleChange}
           />
-
-          <CustomButton type="submit">SIGN UP</CustomButton>
+          <CustomButton type='submit'>SIGN UP</CustomButton>
         </form>
-      </div>
+      </SignUpContainer>
     );
   }
 }
