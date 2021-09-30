@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 //connect is a higher order component let's us modify our components to take things related to redux
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -15,35 +14,36 @@ import CartDropDown from "../cart-dropdown/cart-dropdown.component";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 
-import "./header.styles.scss";
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionsContainer,
+  OptionLink,
+} from "./header.styles";
 
 const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <Link className="logo-container" to="/">
+  <HeaderContainer>
+    <LogoContainer to="/">
       <Logo className="logo"></Logo>
-    </Link>
+    </LogoContainer>
 
-    <div className="options">
-      <Link className="option" to="/shop">
-        SHOP
-      </Link>
-      <Link className="option" to="/contact">
-        CONTACT
-      </Link>
+    <OptionsContainer>
+      <OptionLink to="/shop">SHOP</OptionLink>
+
+      <OptionLink to="/contact">CONTACT</OptionLink>
       {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
+        <OptionLink as="div" onClick={() => auth.signOut()}>
           SIGN OUT
-        </div>
+        </OptionLink>
       ) : (
-        <Link className="option" to="/signin">
-          SIGN IN
-        </Link>
+        <OptionLink to="/signin">SIGN IN</OptionLink>
       )}
+
       <CartIcon />
-    </div>
+    </OptionsContainer>
 
     {hidden ? null : <CartDropDown />}
-  </div>
+  </HeaderContainer>
 );
 
 // the first argument of connect is going to be the function (mapStateToProps) that allows us to access the state,
