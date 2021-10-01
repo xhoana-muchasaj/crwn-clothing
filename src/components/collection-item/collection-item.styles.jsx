@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import CustomButton from "../custom-button/custom-button.component";
+import styled from 'styled-components';
+import CustomButton from '../custom-button/custom-button.component';
 
 export const CollectionItemContainer = styled.div`
   width: 22vw;
@@ -9,15 +9,14 @@ export const CollectionItemContainer = styled.div`
   align-items: center;
   position: relative;
   &:hover {
-    .image{
+    .image {
       opacity: 0.8;
     }
-    .button {
+    button {
       opacity: 0.85;
-      display:flex; /** it shows the button if you are hovering */
+      display: flex;
     }
   }
-
 `;
 
 export const AddButton = styled(CustomButton)`
@@ -28,7 +27,6 @@ export const AddButton = styled(CustomButton)`
   display: none;
 `;
 
-
 export const BackgroundImage = styled.div`
   width: 100%;
   height: 95%;
@@ -37,7 +35,6 @@ export const BackgroundImage = styled.div`
   margin-bottom: 5px;
   background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
-
 
 export const CollectionFooterContainer = styled.div`
   width: 100%;
