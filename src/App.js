@@ -11,20 +11,21 @@ import ShopPage from "./pages/shop/shop.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
-import { auth, createUserProfileDocument,addCollectionAndDocuments } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument
+} from "./firebase/firebase.utils";
 
 //selectors
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
-
 
 class App extends React.Component {
   // property in which you save the authenticated user when the component did mount
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser} = this.props;
 
     // onAuthStateChanged  firebase method that creates a stream whenever the authentication changes (a subscription is created)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {

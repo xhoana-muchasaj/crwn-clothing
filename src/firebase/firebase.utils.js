@@ -61,9 +61,47 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 /////////////////////////////////////////////////////////////////
 
-export const addCollectionAndDocuments = (collectionKey, objectsToAdd) => {
-  const collectionRef=firestore.collection(collectionKey)
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey);
   console.log(collectionRef);
+
+  /** we nedd to gather all our requests in one , so we send a big request all in one
+   * for this firestore offers batch
+   */
+  const batch = firestore.batch();
+
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
+
+///////////////////////////////////////////////////////
+export const convertCollectionSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+  // console.log(transformedCollection)
+
+  /** the transformedCollection returns the data as an array of collections [{1},{2}]
+   * it needs to be trasformed in an object key value {xxx:{1},yyy:{}}
+   */
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator
+  }, {});
 };
 
 export default firebase;

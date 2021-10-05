@@ -18,16 +18,17 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  (collections) => Object.keys(collections).map((key) => collections[key])
+  (collections) =>
+    collections ? Object.keys(collections).map((key) => collections[key]) : []
 );
 // FIND COLLECTION_ID_MAP.ID MATCHING THE URL PARAMETER OF OUR COLLECTION ID MAP
 export const selectCollection = (collectionUrlParam) =>
   createSelector(
     [selectCollections],
-    (collections) => collections[collectionUrlParam]
+    (collections) => (collections ? collections[collectionUrlParam] : null)
 
     /** when the data was saved as array
-   * collections.find(
+   * collections.find( 
       (collection) => collection.id === COLLECTION_ID_MAP[collectionUrlParam]
     ) 
      */
