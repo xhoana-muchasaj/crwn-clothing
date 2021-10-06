@@ -1,9 +1,8 @@
 import { createStore,applyMiddleware } from "redux";
-
 //allows the browser to cashe the store
 import {persistStore} from 'redux-persist';
-
 import logger from "redux-logger";
+import thunk from "redux-thunk";
 
 import rootReducer from "./root-reducer";
 
@@ -13,7 +12,7 @@ import rootReducer from "./root-reducer";
  * we leave the logger empty, so in production it doesnt show anything
  * then we specify that it is needed only fo development
  */
-const middlewares=[];
+const middlewares=[thunk];
 
 if(process.env.NODE_ENV === "development") middlewares.push(logger)
 
