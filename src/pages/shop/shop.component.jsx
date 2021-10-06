@@ -28,6 +28,27 @@ class ShopPage extends React.Component {
     const { updateCollections } = this.props;
     const collectionRef = firestore.collection("collections");
 
+    /** FETCH PATTERN-if we use another type of db
+     fetch('https://firestore.googleapis.com/v1/projects/crwn-db-bc33a/databases/(default)/documents/collections')
+    .then(response=>response.json())
+    .then(collections=>{
+      console.log('collections',collections)
+    })
+     */
+
+    /** --PROMISE PATTERN-- using FIREBASE
+     * the only time that we will get refreshed data from back end is when the shop remounts 
+     * we make the api call
+      collectionRef.get().then((snapshot) => {
+      const collectionsMap = convertCollectionSnapshotToMap(snapshot);
+      updateCollections(collectionsMap);
+      this.setState({ loading: false });
+    });
+     */
+
+    /**---OBSERVABLE PATTERN---- using FIREBASE
+     * the data is updated whenever it changes, a live stream is created
+     */
     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
       async (snapshot) => {
         // console.log(snapshot)
