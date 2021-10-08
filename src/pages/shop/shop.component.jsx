@@ -5,11 +5,14 @@ import { connect } from "react-redux";
 import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 import CollectionPageContainer from "../collection/collection.container";
 
-import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 class ShopPage extends React.Component {
   componentDidMount() {
     const { fetchCollectionsStart } = this.props;
-
+    /**
+     * trigger the action fetchCollectionsStart
+     * the saga is listening to this action
+     */
     fetchCollectionsStart();
   }
   render() {
@@ -37,8 +40,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(ShopPage);
-
-
 
 /** FETCH PATTERN-if we use another type of db
      fetch('https://firestore.googleapis.com/v1/projects/crwn-db-bc33a/databases/(default)/documents/collections')

@@ -34,8 +34,8 @@ export function* fetchCollectionsAsync(){
 export function* fetchCollectionsStart() {
   yield takeLatest(
     ShopActionTypes.FETCH_COLLECTIONS_START, // the FETCH_COLLECTIONS_START action came in, the saga hears for this action
-    fetchCollectionsAsync
-  ); // and fires fetchCollectionsAsync generator functions
+    fetchCollectionsAsync // and fires fetchCollectionsAsync generator functions
+  ); 
 }
 
 export function* shopSagas() {

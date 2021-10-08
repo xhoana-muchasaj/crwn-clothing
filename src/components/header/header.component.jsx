@@ -6,13 +6,14 @@ import { createStructuredSelector } from "reselect";
 //special syntax in react for importing svg
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
-import { auth } from "../../firebase/firebase.utils";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropDown from "../cart-dropdown/cart-dropdown.component";
 
 //selectors
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
+
+import { signOutStart } from "../../redux/user/user.actions";
 
 import {
   HeaderContainer,
@@ -21,7 +22,7 @@ import {
   OptionLink,
 } from "./header.styles";
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
   <HeaderContainer>
     <LogoContainer to="/">
       <Logo className="logo"></Logo>
@@ -32,7 +33,7 @@ const Header = ({ currentUser, hidden }) => (
 
       <OptionLink to="/contact">CONTACT</OptionLink>
       {currentUser ? (
-        <OptionLink as="div" onClick={() => auth.signOut()}>
+        <OptionLink as="div" onClick={signOutStart}>
           SIGN OUT
         </OptionLink>
       ) : (
@@ -52,12 +53,10 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden,
 });
-/**
- * const mapStateToProps = (state) => ({
-  currentUser:selectCurrentUser(state),
-  hidden:selectCartHidden(state),
+
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart()),
 });
-*/
 
 // high order components are just functions that take components as arguments and return a new supped up component
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

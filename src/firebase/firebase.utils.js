@@ -22,8 +22,9 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   // it has properties like exist that tells if the user exists in the db, the id etc
   const snapShot = await userRef.get();
 
-  ////////////////////////////////////////////////////////////////
-  /////////////// if the user doesnt exists we create it/////////
+  /**
+   * IF THE USER DOES NOT EXIST, CREATE IT
+   */
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -40,27 +41,31 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
   }
 
-  //we will always return userRef because there is a chance that we can use it for other things
+  /**
+   * we will always return userRef
+   * because there is a chance that
+   * it can be used i other parts
+   */
   return userRef;
 };
-////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////
 firebase.initializeApp(config);
+////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////
-///////////////////SIGN IN////////////////////////////////////
-//////////////////////////////////////////////////////////////
+/**
+ * SIGN IN WITH GOOGLE
+ */
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
-provider.setCustomParameters({ prompt: "select_account" });
-
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
-/////////////////////////////////////////////////////////////////
-
+/**
+ * helper method for passing local data in db
+ *
+ */
 export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd
@@ -68,7 +73,8 @@ export const addCollectionAndDocuments = async (
   const collectionRef = firestore.collection(collectionKey);
   console.log(collectionRef);
 
-  /** we nedd to gather all our requests in one , so we send a big request all in one
+  /** we nedd to gather all our requests in one ,
+   * so we send a big request all in one
    * for this firestore offers batch
    */
   const batch = firestore.batch();
@@ -81,7 +87,9 @@ export const addCollectionAndDocuments = async (
   return await batch.commit();
 };
 
-///////////////////////////////////////////////////////
+/**
+ * receive the shop data
+ */
 export const convertCollectionsSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
     const { title, items } = doc.data();
@@ -93,15 +101,24 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       items,
     };
   });
-  // console.log(transformedCollection)
 
   /** the transformedCollection returns the data as an array of collections [{1},{2}]
    * it needs to be trasformed in an object key value {xxx:{1},yyy:{}}
    */
   return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
-    return accumulator
+    return accumulator;
   }, {});
+};
+
+/** getting the authenticated user */
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };
 
 export default firebase;
