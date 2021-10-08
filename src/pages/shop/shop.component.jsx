@@ -1,59 +1,22 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 
+import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
+import CollectionPageContainer from "../collection/collection.container";
 
-import CollectionsOverviewContainer from '../../components/collections-overview/collections-overview.container';
-import CollectionPageContainer from '../collection/collection.container';
-
-
-//sagas
-import { fetchCollectionsStart } from '../../redux/shop/shop.sagas';
-
-
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 class ShopPage extends React.Component {
-
   componentDidMount() {
-    // const { fetchCollectionsStartAsync } = this.props;
+    const { fetchCollectionsStart } = this.props;
+
     fetchCollectionsStart();
-
-    /** FETCH PATTERN-if we use another type of db
-     fetch('https://firestore.googleapis.com/v1/projects/crwn-db-bc33a/databases/(default)/documents/collections')
-    .then(response=>response.json())
-    .then(collections=>{
-      console.log('collections',collections)
-    })
-     */
-    /** --PROMISE PATTERN-- using FIREBASE
-     * the only time that we will get refreshed data from back end is when the shop remounts 
-     * we make the api call
-      collectionRef.get().then((snapshot) => {
-      const collectionsMap = convertCollectionSnapshotToMap(snapshot);
-      updateCollections(collectionsMap);
-      this.setState({ loading: false });
-    });
-     */
-    /**---OBSERVABLE PATTERN---- using FIREBASE
-     * the data is updated whenever it changes, a live stream is created
-      this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-      async (snapshot) => {
-        // console.log(snapshot)
-
-        the function in which is passed che snapshot of the collections received from firebase,
-         * the function returns the object with data from this snapshot
-        
-         const collectionsMap = convertCollectionSnapshotToMap(snapshot);
-         updateCollections(collectionsMap);
-         this.setState({ loading: false });
-       }
-     );
-     */
   }
   render() {
     const { match } = this.props;
 
     return (
-      <div className='shop-page'>
+      <div className="shop-page">
         <Route
           exact
           path={`${match.path}`}
@@ -68,11 +31,43 @@ class ShopPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
+const mapDispatchToProps = (dispatch) => ({
+  //dispatches the action
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ShopPage);
+export default connect(null, mapDispatchToProps)(ShopPage);
+
+
+
+/** FETCH PATTERN-if we use another type of db
+     fetch('https://firestore.googleapis.com/v1/projects/crwn-db-bc33a/databases/(default)/documents/collections')
+    .then(response=>response.json())
+    .then(collections=>{
+      console.log('collections',collections)
+    })
+     */
+/** --PROMISE PATTERN-- using FIREBASE
+     * the only time that we will get refreshed data from back end is when the shop remounts 
+     * we make the api call
+      collectionRef.get().then((snapshot) => {
+      const collectionsMap = convertCollectionSnapshotToMap(snapshot);
+      updateCollections(collectionsMap);
+      this.setState({ loading: false });
+    });
+     */
+/**---OBSERVABLE PATTERN---- using FIREBASE
+     * the data is updated whenever it changes, a live stream is created
+      this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+      async (snapshot) => {
+        // console.log(snapshot)
+
+        the function in which is passed che snapshot of the collections received from firebase,
+         * the function returns the object with data from this snapshot
+        
+         const collectionsMap = convertCollectionSnapshotToMap(snapshot);
+         updateCollections(collectionsMap);
+         this.setState({ loading: false });
+       }
+     );
+     */

@@ -3,10 +3,9 @@ import { createStore, applyMiddleware } from "redux";
 import { persistStore } from "redux-persist";
 import logger from "redux-logger";
 import createSagaMiddleware from "redux-saga";
-import rootReducer from "./root-reducer";
 
-// import sagas
-import { fetchCollectionsStart } from "./shop/shop.sagas";
+import rootReducer from "./root-reducer";
+import rootSaga from "./root-saga";
 
 // Create the saga middleware for handling async events
 const sagaMiddleware = createSagaMiddleware();
@@ -27,7 +26,7 @@ export const store = createStore(
     applyMiddleware(...middlewares)); // mount middlewares on the Store
 
 // run sagas
-sagaMiddleware.run(fetchCollectionsStart);
+sagaMiddleware.run(rootSaga);
 
 //creates a persistent version of the store
 export const persistor = persistStore(store);
