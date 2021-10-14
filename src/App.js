@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -15,52 +15,36 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 
 import { checkUserSession } from "./redux/user/user.actions";
 
-class App extends React.Component {
-  // property in which you save the authenticated user when the component did mount
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { checkUserSession } = this.props;
-
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     /**
      * triggering the action checkUserSession
      * the saga is listening to this action
      */
     checkUserSession();
-  }
+  }, [checkUserSession]);
 
-  // when the component unmounts the authenticated saved user is set to null (closes the subscription)
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+  return (
+    <div>
+      <Header />
 
-  render() {
-    return (
-      <div>
-        <Header />
-
-        {/* A <Switch> looks through its children <Route>s and
+      {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
+          }
+        />
+      </Switch>
+    </div>
+  );
+};
 
 //allows access to the state
 const mapStateToProps = createStructuredSelector({
