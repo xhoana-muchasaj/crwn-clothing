@@ -16,6 +16,7 @@ import ShopActionTypes from "./shop.types";
 // Worker saga will be fired on FETCH_COLLECTIONS_START actions
 export function* fetchCollectionsAsync(){
   try {
+    alert(1)
     const collectionRef = firestore.collection("collections");
     const snapshot = yield collectionRef.get();
     const collectionsMap = yield call(
