@@ -106,7 +106,9 @@ export const convertCollectionsSnapshotToMap = (collections) => {
    * it needs to be trasformed in an object key value {xxx:{1},yyy:{}}
    */
   return transformedCollection.reduce((accumulator, collection) => {
-    accumulator[collection.title.toLowerCase()] = collection;
+  
+    accumulator[collection.title.toLowerCase()] = collection;  
+    console.log(accumulator)
     return accumulator;
   }, {});
 };
